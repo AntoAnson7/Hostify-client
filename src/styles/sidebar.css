@@ -1,0 +1,65 @@
+.sidebar{
+    position: fixed;
+    background-color: #161A23;
+    width: 25vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo{
+    flex: 0.1;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+.logo img{
+    padding-left: 50px;
+    padding-top: 30px;
+    width: 150px;
+}
+
+.main-links{
+    flex: 0.35;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: start;
+    padding-left: 130px;
+}
+.sub-links{
+    flex: 0.35;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: start;
+    padding-left: 130px;
+}
+.profile-info{
+    flex: 0.2;
+    padding: 30px;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+
+.link-icon-group{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sidebar-sep{
+    width: 95%;
+    margin-left: 10px;
+    border: 1px solid rgba(128, 128, 128,0.4);
+    box-shadow: 1px 1px 20px #fff;
+}

@@ -1,0 +1,19 @@
+.topbar{
+    height: 110px;
+    background-color: #161A23;
+    margin-left: 25vw;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+}
+
+.topbar p{
+    color: white;
+    font-size: 36px;
+    font-weight: 200;
+}
+
+.topbar p span{
+    font-size: 38px;
+    font-weight: 500;
+}
