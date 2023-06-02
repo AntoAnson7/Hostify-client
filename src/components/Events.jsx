@@ -10,37 +10,31 @@ import { useAppData } from '../AppContext/AppContext'
 
 function Events() {
   const [{user,registered},dispatch]=useAppData()
-  const [response,setResponse]=useState({})
-  const [img,setimg]=useState([])
+  const [response,setResponse]=useState([])
   const [newe,setNewe]=useState(false)
-  // const [url,setUrl]=useState("")
-
   const [tn,setTn]=useState(null)
+  const [tempurl,setTempurl]=useState(null)
+
+  const getData=async()=>{
+    if(user.uid!=null){
+      const res=await getDoc(doc(db,"users",user.uid))
+      setResponse(res.data().events)
+    }
+    else{
+      console.log("Not logged in")
+    }
+    
+  }
 
   useEffect(()=>{
-    response.events?.map(a=>{
-      setimg([...img,getImageURL(`images/${a}`)])
-    })
+    getData()
   },[user])
 
-  const getdata=async()=>{
-    const res = await getDoc(doc(db, "users", user.uid));
-    setResponse(res.data())
-    
-    res.data().events.map(a=>{
-      getEvent(a)
-    })  
-  }
   async function getImageURL(imageName) {
     try {
-      // Create a reference to the image file
       const imageRef = ref(storage, imageName);
-  
-      // Get the download URL
       const url = await getDownloadURL(imageRef);
-  
-      return url
-      // Use the URL here or return it to the calling function
+      setTempurl(url)
     } catch (error) {
       return "nil"
     }
@@ -53,34 +47,27 @@ function Events() {
     formState: { errors },
   } = useForm();
 
-  const getEvent=async(a)=>{
-    const res=await getDoc(doc(db,"events",a))
-    setimg([...img,res.data().url])
-  }
-
-  useEffect(()=>{
-    registered&&getdata()
-  },[])
 
   const formsubmit=async(data)=>{
     const imageref=ref(storage,`images/${data.ename}${user.uid.substring(0,6)}`)
     
     uploadBytes(imageref,tn).then(()=>{
-      // const lurl=getImageURL(`images/${data.ename}${user.uid.substring(0,6)}`)
-      // setUrl(lurl)
+      getImageURL(`images/${data.ename}${user.uid.substring(0,6)}`)
     })
     
-    await setDoc(doc(db,"events",`${data.ename}${user.uid.substring(0,6)}`),{
+    await setDoc(doc(db,"events",`${data.ename}${user.uid?.substring(0,6)}`),{
       name:data.ename,
       descr:data.edescr,
       date:data.date,
       owner:user.uid,
+      url:tempurl
     })
 
     await updateDoc(doc(db,"users",user.uid),{
       events:arrayUnion(`${data.ename}${user.uid.substring(0,6)}`)
     })
 
+    alert(`New event: ${data.ename} created succesfull`)
     setNewe(false)
   }
 
@@ -102,7 +89,7 @@ function Events() {
           <button onClick={()=>setNewe(!newe)}>Create new + </button>
         </div>
         <div className='events-cards'>
-          {response.events?.map(a=>(<p style={{color:"black"}} className='card'>{a}</p>))}    
+          {response?.map(a=>(<p className='card' onClick={()=>console.log(a)}>{a}</p>))}    
 
           {/* {response.events?.map(a=>(<img src={getImageURL(`images/${a}`)}/>))}     */}
         </div>

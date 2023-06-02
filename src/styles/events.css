@@ -31,6 +31,8 @@
     width: 15rem;
     height: 25rem;
     border-radius: 10px;
+    cursor: pointer;
+    color: #161A23;
 }
 
 .new-event{
@@ -82,3 +84,4 @@
     border-radius: 10px;
     cursor: pointer;
 }
+
