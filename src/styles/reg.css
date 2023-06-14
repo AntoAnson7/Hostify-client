@@ -1,0 +1,42 @@
+.regmain{
+    position: absolute;
+    background-color: #161A23;
+    width: 100vw;
+    height: 100vh;
+    top: 0;left: 0;
+    display: flex;
+}
+
+.img-box{
+    width: 40vw;
+    display: flex;
+    justify-content: center;align-items: center;
+    padding: 50px;
+}
+
+.reg-banner{
+    width: 500px;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 1px 1px 50px #30374a;
+}
+.data{
+    padding: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+.data button{
+    width: 150px;
+    height: 50px;
+    border: none;
+    outline: none;
+    background-color: #7241fd;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+    border: 1px solid #7241fd;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

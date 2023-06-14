@@ -1,6 +1,8 @@
 .home-main{
     display: flex;
     flex-direction: column;
+    height: fit-content;
+    min-height: 86vh;
     background-color: #161A23;
 }
 
@@ -18,8 +20,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 28vw;
-    padding-top: 150px;
+    margin-left: 25vw;
     padding-bottom: 150px;
     gap:50px;
 }
@@ -28,6 +29,8 @@
     width: 80%;
     height: 400px;
     object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 1px 1px 50px #161A23;
 }
 
 .edetails{
@@ -35,7 +38,6 @@
     width: 60vw;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     border-radius: 15px;
     gap: 20px;
     text-align: start;

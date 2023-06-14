@@ -7,8 +7,8 @@ import { initial, reducer } from "./AppContext/reducer";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AppContext initial={initial} reducer={reducer}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <App />
+    {/* </React.StrictMode> */}
   </AppContext>
 );

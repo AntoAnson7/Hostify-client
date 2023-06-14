@@ -1,19 +1,25 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { getStorage, ref,uploadBytes,getDownloadURL } from "firebase/storage";
+import { ref,uploadBytes,getDownloadURL } from "firebase/storage";
 import "../styles/events.css"
-import { auth, db, provider,storage } from "../firebase/config";
+import { db,storage } from "../firebase/config";
 import { useForm } from "react-hook-form";
 import {arrayUnion, doc,getDoc,setDoc, updateDoc} from "firebase/firestore"
-
 import { useAppData } from '../AppContext/AppContext'
+import { useNavigate } from 'react-router-dom';
 
 function Events() {
-  const [{user,registered},dispatch]=useAppData()
+  const [{user}]=useAppData()
   const [response,setResponse]=useState([])
   const [newe,setNewe]=useState(false)
   const [tn,setTn]=useState(null)
-  const [tempurl,setTempurl]=useState(null)
+  const[userEvents,setUserEvents]=useState([])
+  const navigate=useNavigate()
+  const {
+    register,
+    handleSubmit,
+  } = useForm();
+
 
   const getData=async()=>{
     if(user.uid!=null){
@@ -26,55 +32,74 @@ function Events() {
     
   }
 
+  const getinfo=async()=>{
+    let temp=[]
+    let obj={}
+    for(let i=0;i<response.length;i++){
+      const res=await getDoc(doc(db,"events",response[i]))
+      obj=res.data()
+      obj["eventId"]=response[i]
+      temp.push(obj)
+    }
+    setUserEvents(temp)
+  }
+
   useEffect(()=>{
     getData()
-  },[user])
+  },[])
 
-  async function getImageURL(imageName) {
+  useEffect(()=>{
+    getinfo()
+  },[response])
+
+  async function getImageURL(imageName,data) {
     try {
       const imageRef = ref(storage, imageName);
       const url = await getDownloadURL(imageRef);
-      setTempurl(url)
+      const name=data.ename.split(' ').join('')
+
+      await setDoc(doc(db,"events",`${name}${user.uid?.substring(0,6)}`),{
+        name:data.ename,
+        descr:data.edescr,
+        date:data.date,
+        owner:user.uid,
+        url:url
+      })
+  
+      await updateDoc(doc(db,"users",user.uid),{
+        events:arrayUnion(`${name}${user.uid.substring(0,6)}`)
+      })
+  
+      alert(`New event: ${data.ename} created succesfull`)
+      setNewe(false)
+    
     } catch (error) {
       return "nil"
     }
 
   }
   
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-
   const formsubmit=async(data)=>{
-    const imageref=ref(storage,`images/${data.ename}${user.uid.substring(0,6)}`)
+    const name=data.ename.split(' ').join('')
+    const imageref=ref(storage,`images/${name}${user.uid.substring(0,6)}`)
     
     uploadBytes(imageref,tn).then(()=>{
-      getImageURL(`images/${data.ename}${user.uid.substring(0,6)}`)
+      getImageURL(`images/${name}${user.uid.substring(0,6)}`,data)
     })
-    
-    await setDoc(doc(db,"events",`${data.ename}${user.uid?.substring(0,6)}`),{
-      name:data.ename,
-      descr:data.edescr,
-      date:data.date,
-      owner:user.uid,
-      url:tempurl
-    })
-
-    await updateDoc(doc(db,"users",user.uid),{
-      events:arrayUnion(`${data.ename}${user.uid.substring(0,6)}`)
-    })
-
-    alert(`New event: ${data.ename} created succesfull`)
-    setNewe(false)
   }
 
   return (
     <div className='events'>
           {newe&&<div className="new-event">
-            <p>Create new event</p>
+            <div 
+            style={{display:"flex",
+            justifyContent:"space-between",
+            alignItems:"center",
+            padding:"20px",
+            height:"50px"}}
+            >
+              <button className='close' onClick={()=>setNewe(!newe)}>X</button>
+            </div>
             <form className='form' onSubmit={handleSubmit(formsubmit)}>
                 <input className='in' type="text" placeholder='Event Name' {...register("ename")}/>
                 <input className='in' type="textarea"  placeholder='Description'{...register("edescr")}/>
@@ -85,13 +110,19 @@ function Events() {
         </div>}
       <div>
         <div className="events-butt">
-          <p>Your events ,</p>
-          <button onClick={()=>setNewe(!newe)}>Create new + </button>
+          <h1 style={{marginBottom:"90px"}}>Your events , </h1>
+          <button onClick={()=>setNewe(!newe)} style={{fontWeight:"bold",fontSize:"17px"}}>Create new + </button>
         </div>
         <div className='events-cards'>
-          {response?.map(a=>(<p className='card' onClick={()=>console.log(a)}>{a}</p>))}    
-
-          {/* {response.events?.map(a=>(<img src={getImageURL(`images/${a}`)}/>))}     */}
+          {userEvents.length>0?userEvents.map(ue=>(
+            <div className="ebox">
+              <img src={ue.url} className='uebanner' onClick={()=>navigate(`/event-admin/${ue.eventId}`)}/>
+              <p className='hov'>
+                <p>{ue.name}</p>
+                <button className='del'>Delete Event</button>
+              </p>
+            </div>
+          )):<p className='no-eve'>Uh oh! Seem's like you have'nt created an Event yet! <span onClick={()=>setNewe(!newe)}>Click here</span> to create one!</p>}
         </div>
       </div>
     </div>

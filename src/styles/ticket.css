@@ -1,0 +1,101 @@
+.tickets-main{
+    background-color: #161A23;
+    padding-bottom: 100px;
+    min-height: 86vh;
+    color: #fff;
+    padding-left: 25vw;
+    padding-right: 20%;
+}
+.ticket-partition{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 50px;
+}
+.ticket{
+    display: flex;
+    gap: 20px;
+    width: 500px;
+    background-color: #30374A;
+    gap: 30px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+}
+
+.ticket-banner{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.ticket-deets{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.ticket:hover{
+    transform: scale(1.01);
+    box-shadow: 1px 1px 15px #30374A;
+}
+
+.info{
+    width: fit-content;
+    padding-right: 20px;
+    height: 220px;
+    position: absolute;
+    background-color: #fff;
+    background-color: #30374A;
+    border-radius: 10px;
+    opacity: 90%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: start;
+    padding-left: 20px;
+    box-shadow: 1px 1px 15px #30374A;
+    border: 1px solid #fff;
+    gap: 15px;
+    z-index: 20;
+    top: 10px;
+    right: 10px;
+}
+
+.close{
+    background-color: #7241fd;
+    width:40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    /* margin-left: 92%; */
+    transition: all 0.2s ease-in;
+}
+.close:hover{
+    background-color: #fff;
+    color: #7241fd;
+}
+
+.info p span{
+    font-style: italic;
+    color: #7241fd;
+    font-weight: bold;
+}
+.ban{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ban h2{
+    font-style: italic;
+    font-weight: 400;
+}

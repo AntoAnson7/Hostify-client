@@ -159,3 +159,16 @@ a{
     border-radius: 10px;
     cursor: pointer;
 }
+
+hr{
+    border: none;
+    width: 3px;
+    background-color: #30374A;
+}
+
+.line{
+    position: absolute;
+    height: 90vh;
+    left: 22vw;
+    margin-top: 10%;
+}

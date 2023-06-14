@@ -8,6 +8,8 @@ import Topbar from "./components/Topbar";
 import Help from "./components/Help";
 import Settings from "./components/Settings";
 import Contact from "./components/Contact";
+import Registration from "./components/Registration";
+import Eventadmin from "./components/Eventadmin";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/help" element={<Help />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/register/:id" element={<Registration />} />
+          <Route path="/event-admin/:id" element={<Eventadmin />} />
         </Routes>
       </Router>
     </div>

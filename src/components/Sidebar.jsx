@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/sidebar.css'
 import logo from "../assets/logo.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {AiOutlineHome} from "react-icons/ai"
 import {MdOutlineGames} from "react-icons/md"
@@ -20,7 +20,7 @@ import { useAppData } from '../AppContext/AppContext'
 function Sidebar() {
 
     const [{user,registered},dispatch]=useAppData()
-
+    const navigate=useNavigate()
     const [reg,setReg]=useState(false)
     const [name,setName]=useState("")
     const [age,setAge]=useState("")
@@ -53,14 +53,13 @@ function Sidebar() {
                 registered:true
             })
             setReg(false)
+            navigate("/")
         }
 
     const checkUser = async (id) => {
         const res = await getDoc(doc(db, "users", id));
         luser.uid=="nil"?console.log("ter"):res.data()?regTrue():setReg(true)
     }
-
-
 
     const register=async()=>{
         await setDoc(doc(db, "users", luser.uid), {
@@ -71,6 +70,7 @@ function Sidebar() {
           setName("")
           setAge("")
           setReg(false)
+          navigate("/")
     }
     
     
@@ -81,6 +81,7 @@ function Sidebar() {
         })
         setLuser({uid:"nil"})
         setReg(false)
+        navigate("/")
     }
   return (
     <div className='sidebar'>
@@ -143,6 +144,8 @@ function Sidebar() {
             
             :<button className='login-button' onClick={login}>Login</button>}
         </div>
+
+        <hr className='line'/>
     </div>
   )
 }

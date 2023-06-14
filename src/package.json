@@ -1,0 +1,11 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.14.1"
+  },
+  "dependencies": {
+    "solc": "^0.8.20",
+    "web3": "^1.10.0"
+  }
+}
